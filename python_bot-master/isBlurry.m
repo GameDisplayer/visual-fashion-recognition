@@ -11,12 +11,12 @@ function isBlurry(image, threshold)
     var = std(output(:));
 
     if (var < threshold) %21 à affiner
-        message="Image is blurry";
+        message="The image is blurry";
     else
-        message="Image is not blurry";
+        message="The image is not blurry";
     end
     
-    fileID = fopen('message.txt','w');
+    fileID = fopen('messages.txt','w');
     fprintf(fileID,message);
     fclose(fileID);
 
