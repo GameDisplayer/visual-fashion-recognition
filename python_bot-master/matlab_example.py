@@ -32,10 +32,14 @@ def imageHandler(bot, message, chat_id, local_filename):
 	### TEST ###
 	
 	# set command to start matlab script "isBlurry.m"
-	cmd = matlab_cmd + " -nodesktop -nosplash -nodisplay -wait -r \"addpath(\'" + cur_dir + "\'); isBlurry(\'" + local_filename + "\', 21); quit\""
+	cmd_blur = matlab_cmd + " -nodesktop -nosplash -nodisplay -wait -r \"addpath(\'" + cur_dir + "\'); isBlurry(\'" + local_filename + "\', 21); quit\""
 	#launch command
-	subprocess.call(cmd,shell=True)
-	f = open(cur_dir + "\\message.txt", "r")
+	subprocess.call(cmd_blur,shell=True)
+	
+	cmd_bright = matlab_cmd + " -nodesktop -nosplash -nodisplay -wait -r \"addpath(\'" + cur_dir + "\'); isBright(\'" + local_filename + "\'); quit\""
+	subprocess.call(cmd_bright,shell=True)
+	
+	f = open(cur_dir + "\\messages.txt", "r")
 	message = f.read() 
         #send the response
 	bot.sendMessage(chat_id, message)
