@@ -3,15 +3,22 @@ function isBright(image)
     brightness = mean2(inputImage);
     
     if( brightness < 50)
-        message = " and dark.";
+        message = ", dark";
+        bool = 1;
     elseif (brightness > 175)
-        message = " and overexposed.";
+        message = ", overexposed";
+        bool = 1;
     else
-        message = " and normal.";
+        message = ", normal";
+        bool = 0;
     end
     
     fileID = fopen('messages.txt','a');
     fprintf(fileID,message);
     fclose(fileID);
+    
+    fileID2 = fopen('booleanAccepted.txt', 'a');
+    fprintf(fileID2, '%5d', bool);
+    fclose(fileID2);
     
 end

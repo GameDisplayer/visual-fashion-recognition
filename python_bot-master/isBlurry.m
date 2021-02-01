@@ -12,12 +12,18 @@ function isBlurry(image, threshold)
 
     if (var < threshold) %21 à affiner
         message="The image is blurry";
+        bool = 1;
     else
         message="The image is not blurry";
+        bool = 0;
     end
     
     fileID = fopen('messages.txt','w');
     fprintf(fileID,message);
     fclose(fileID);
+    
+    fileID2 = fopen('booleanAccepted.txt', 'w');
+    fprintf(fileID2, '%5d', bool);
+    fclose(fileID2);
 
 end

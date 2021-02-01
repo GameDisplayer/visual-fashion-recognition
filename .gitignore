@@ -29,3 +29,10 @@ codegen/
 
 # Octave session info
 octave-workspace
+
+# Generated txt files
+python_bot-master/booleanAccepted.txt
+python_bot-master/messages.txt
+
+#py_cache
+__pycache__/
