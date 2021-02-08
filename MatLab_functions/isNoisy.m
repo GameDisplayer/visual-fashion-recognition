@@ -2,7 +2,7 @@ function isNoisy(image)
     inputImage = imread(image);
     inputImage = im2double(inputImage);
     
-    added_path = [pwd,'/noise_level_estimation']; %change to: added_path = '/path' for your required path
+    added_path = [pwd,'/MatLab_functions/noise_level_estimation']; %change to: added_path = '/path' for your required path
     addpath(added_path);
     
     [nl th num] = NoiseLevel(inputImage);

@@ -35,13 +35,13 @@ class Bot:
     def sendImage(self, chat_id, image_path, caption):
         #http://docs.python-requests.org/en/latest/user/quickstart/
         if os.path.isfile(image_path):
-            print("I am sending the image: " + image_path)
+            print("sto inviando l'immagine: " + image_path)
             url = self.base_url + 'sendPhoto'
             files = {'photo': open(image_path, 'rb')}
             data  = {'caption':caption, "chat_id": chat_id}
             r = requests.post(url, files=files, data=data)
         else:
-            print("Image not found: " + image_path)
+            print("Immagine non trovata: " + image_path)
 
     def sendDocument(self, chat_id, doc_path):
         #http://docs.python-requests.org/en/latest/user/quickstart/
