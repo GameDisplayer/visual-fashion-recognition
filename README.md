@@ -22,7 +22,7 @@ This subset is not provided in this repository because of its size.
 3. Propose a good "outfit" with some interactions with the user (in terms of color or textures)
 
 ## Organization of the repository :
-- *python_bot-master* : the directory containing the Telegram Bot, provided by [this GitHub](https://github.com/dros1986/python_bot).
+- *python_bot-master* : the directory containing the Telegram Bot, provided by [this repository](https://github.com/dros1986/python_bot).
 - *MatLab_functions* : the directory containing all the MatLab functions. 
 - *server.py* : the main python file.
 
