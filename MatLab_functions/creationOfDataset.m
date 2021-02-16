@@ -5,10 +5,10 @@
 % not provided because of its size.
 
 %% Read the CSV file
-T = readtable("C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train.csv");
+T = readtable("C:\Users\Romain\Desktop\Visual\train.csv");
 
 %% Set up the train folder
-train_folder = "C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train\train";
+train_folder = "C:\Users\Romain\Desktop\Visual\trainSetWithBlackBordersCropped";
 
 %% Creation of the train subset
 % By previous observation, the 50 first groups are choosed (Group 1 to 
