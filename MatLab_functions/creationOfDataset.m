@@ -11,23 +11,38 @@ T = readtable("C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train.csv
 train_folder = "C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train\train";
 
 %% Creation of the train subset
-% By previous observation, the 3 700 first classes are choosed. These
-% classes represent fashion items. The final subset is composed of 39 762
-% images.
+% By previous observation, the 50 first groups are choosed (Group 1 to 
+% group 50). These groups represent fashion items. The final subset is 
+% composed of 27 507 images.
 
-MAXCLASSE = 3699;
+MAXGROUP = 50;
 if not(isfolder("trainSet"))
     mkdir("trainSet")
 end
 
-k=1;
-for i=0:MAXCLASSE
-    class = T.class == i;
-    imagesSelected = T(class,:);
+for i=1:MAXGROUP
+    grp = T.group == i;
+    imagesSelected = T(grp,:);
     for j=1:height(imagesSelected)
         im = imread(train_folder + "\" + string(imagesSelected{j,1}));
-        file = fullfile('trainSet', [num2str(k) '.jpg']);
+        file = fullfile('trainSet', string(imagesSelected{j,1}));
         imwrite(im, file);
-        k=k+1;
     end
+end
+
+%% Creation of test group
+% In this part, we use all the pictures of the group 0 in order to use them
+% for test from the Telegram Bot. In fact, the pictures of the groups 0
+% seem to belong to a big number of categories, is composed of 718 images.
+
+if not(isfolder("group0Set"))
+    mkdir("group0Set")
+end
+
+grp = T.group == 0;
+imagesSelected = T(grp,:);
+for j=1:height(imagesSelected)
+    im = imread(train_folder + "\" + string(imagesSelected{j,1}));
+    file = fullfile('group0Set', [num2str(j) '.jpg']);
+    imwrite(im, file);
 end
