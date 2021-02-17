@@ -2,7 +2,7 @@
 function classification(image)
 
  %Load the pre-trained network
-    load('resnet101.mat');
+    load('resnet101_plus.mat');
 
     %Resize image for classification
     I = imread(image);
@@ -11,10 +11,6 @@ function classification(image)
 
     %Classify the Image
     label = classify(net, I);
-    message = "The label predicted is " + char(label(1));
-
-    fileID = fopen('label.txt','w');
-    fprintf(fileID,message);
-    fclose(fileID);
+    correspondanceWithGroups(label(1));
 end
    
