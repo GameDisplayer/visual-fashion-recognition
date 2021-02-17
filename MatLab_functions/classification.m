@@ -2,7 +2,7 @@
 function classification(image)
 
  %Load the pre-trained network
-    load('resnet101.mat');
+    load('resnet101_plus.mat');
 
     %Resize image for classification
     I = imread(image);
