@@ -16,7 +16,7 @@ for class=1:8
     for i=1:n
         s=images(i).name;
         im=imread(folder + images(i).name);
-        figure, imshow(im)
+        %figure, imshow(im)
         %im = rgb2hsv(im);
         im=im2double(im);
         im=reshape(im, [], 3);
@@ -68,6 +68,11 @@ Mdl = fitcknn(features,labels,'OptimizeHyperparameters', {'Distance','NumNeighbo
 % M=confusionmat(labels_test, labels_pred)
 % M=M./sum(M,2);
 % acc=mean(diag(M))
+
+%% save model
+
+knn = Mdl;
+save knn
 
 %% predict
 

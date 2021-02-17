@@ -63,6 +63,16 @@ def imageHandler(bot, message, chat_id, local_filename):
         f3 = open(cur_dir + "\\label.txt", "r")
         label = f3.read()
         bot.sendMessage(chat_id, label)
+
+        #Set command to start matlab script "getColor.m"
+        cmd_classification = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); getColor(\'" + local_filename + "\'); quit\""
+        #Launch command
+        subprocess.call(cmd_classification,shell=True)
+
+        f4 = open(cur_dir + "\\color.txt", "r")
+        color = f4.read()
+        bot.sendMessage(chat_id, color)
+
     else:
         bot.sendMessage(chat_id, "Your image can not be processed. Send us a new one !")
 
