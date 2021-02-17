@@ -1,11 +1,11 @@
 %% Read CSV
-T = readtable("C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train.csv");
+T = readtable("C:\Users\Romain\Desktop\Visual\train.csv");
 
 %% Data 
-% histogram(T.group);
-% title('Groups');
+histogram(T.group);
+title('Groups');
 
-train_folder = "C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train\train";
+train_folder = "C:\Users\Romain\Desktop\Visual\trainSet";
 
 
 %% Iterate over groups
@@ -21,16 +21,20 @@ train_folder = "C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train\tr
 % end
 
 %% Iterate over classes of same group
-% groupl = T.group == 3
-% l=sum(groupl)
-% NT = T(groupl,:)
-% 
-% for i = 1:height(NT)
-%     close all;
-%     a = imread(train_folder + "\" + string(NT{i,1}));
-%     figure('Name',"Class " + string(NT{i,2}) + "; Group " + string(NT{i,3})); imshow(a)
-%     pause(1);
-% end
+groupl = T.group == 25 %57
+l=sum(groupl)
+NT = T(groupl,:)
+prec = 10000000
+for i = 1:height(NT)
+    close all;
+    if prec ~= NT{i,2}
+        a = imread(train_folder + "\" + string(NT{i,1}));
+        figure('Name',"Class " + string(NT{i,2}) + "; Group " + string(NT{i,3})); imshow(a)
+        pause(1);
+    end
+    prec = NT{i,2}
+end
+
 
 %% Iterate over images of same classes 
 % class = T.class == 7
@@ -62,3 +66,11 @@ train_folder = "C:\Users\Romain\Desktop\Visual Information\PROJECT\Data\train\tr
 % NT = T(class,:)
 % a = imread(train_folder + "\" + string(NT{1,1}));
 % figure('Name',"Class " + string(NT{1,2})); imshow(a)
+
+
+%% See img of group
+% close all
+% group = T.group == 2
+% NT = T(group,:)
+% a = imread(train_folder + "\" + string(NT{1,1}));
+% figure('Name',"Group " + string(NT{1,2})); imshow(a)
