@@ -25,7 +25,7 @@ def imageHandler(bot, message, chat_id, local_filename):
 
 
     #Set command to start matlab script "isBlurry.m"
-    cmd_blur = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBlurry(\'" + local_filename + "\', 21); quit\""
+    cmd_blur = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBlurry(\'" + local_filename + "\', 15); quit\""
     #Launch command
     subprocess.call(cmd_blur,shell=True)
 
@@ -56,15 +56,15 @@ def imageHandler(bot, message, chat_id, local_filename):
         bot.sendMessage(chat_id, "Your image can be processed.")
         
         #Set command to start matlab script "classification.m"
-        cmd_classification = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); classification(\'" + local_filename + "\'); quit\""
+        #cmd_classification = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); classification(\'" + local_filename + "\'); quit\""
         #Launch command
-        subprocess.call(cmd_classification,shell=True)
+        #subprocess.call(cmd_classification,shell=True)
     else:
         bot.sendMessage(chat_id, "Your image can not be processed. Send us a new one !")
 
-    f3 = open(cur_dir + "\\label.txt", "r")
-    label = f3.read()
-    bot.sendMessage(chat_id, label)
+    #f3 = open(cur_dir + "\\label.txt", "r")
+    #label = f3.read()
+    #bot.sendMessage(chat_id, label)
 if __name__ == "__main__":
     bot_id = '1461723734:AAFTgtj7DCKmhBOi6svlNTtuqmYBSnHp5I4'
     updater = Updater(bot_id)
