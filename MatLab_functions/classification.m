@@ -11,10 +11,6 @@ function classification(image)
 
     %Classify the Image
     label = classify(net, I);
-    message = "The label predicted is " + char(label(1));
-
-    fileID = fopen('label.txt','w');
-    fprintf(fileID,message);
-    fclose(fileID);
+    correspondanceWithGroups(label(1));
 end
    
