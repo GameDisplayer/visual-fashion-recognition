@@ -25,17 +25,17 @@ def imageHandler(bot, message, chat_id, local_filename):
 
 
     #Set command to start matlab script "isBlurry.m"
-    cmd_blur = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBlurry(\'" + local_filename + "\', 15); quit\""
+    cmd_blur = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBlurry(\'" + local_filename + "\', 15, 0); quit\""
     #Launch command
     subprocess.call(cmd_blur,shell=True)
 
     #Set command to start matlab script "isBright.m"
-    cmd_bright = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBright(\'" + local_filename + "\'); quit\""
+    cmd_bright = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isBright(\'" + local_filename + "\', 0); quit\""
     #Launch command
     subprocess.call(cmd_bright,shell=True)
 
     #Set command to start matlab script "isNoisy.m"
-    cmd_noise = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isNoisy(\'" + local_filename + "\'); quit\""
+    cmd_noise = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); isNoisy(\'" + local_filename + "\', 0); quit\""
     #Launch command
     subprocess.call(cmd_noise,shell=True)
 

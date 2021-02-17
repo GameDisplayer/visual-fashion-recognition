@@ -1,5 +1,5 @@
 %Blur detection with Laplacian kernel
-function isBlurry(image, threshold)
+function isB = isBlurry(image, threshold, insideFunc)
     inputImage = imread(image);
     inputImage = rgb2gray(inputImage);
 
@@ -18,12 +18,16 @@ function isBlurry(image, threshold)
         bool = 0;
     end
     
-    fileID = fopen('messages.txt','w');
-    fprintf(fileID,message);
-    fclose(fileID);
+    if (insideFunc == 0)
+        fileID = fopen('messages.txt','w');
+        fprintf(fileID,message);
+        fclose(fileID);
     
-    fileID2 = fopen('booleanAccepted.txt', 'w');
-    fprintf(fileID2, '%5d', bool);
-    fclose(fileID2);
+        fileID2 = fopen('booleanAccepted.txt', 'w');
+        fprintf(fileID2, '%5d', bool);
+        fclose(fileID2);
+    end
+    
+    isB = bool;
 
 end

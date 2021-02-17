@@ -1,4 +1,4 @@
-function isNoisy(image)
+function isN = isNoisy(image, insideFunc)
     inputImage = imread(image);
     inputImage = im2double(inputImage);
     
@@ -15,13 +15,16 @@ function isNoisy(image)
         bool = 0;
     end
     
-    fileID = fopen('messages.txt','a');
-    fprintf(fileID,message);
-    fclose(fileID);
+    if(insideFunc == 0)
+        fileID = fopen('messages.txt','a');
+        fprintf(fileID,message);
+        fclose(fileID);
    
-    fileID2 = fopen('booleanAccepted.txt', 'a');
-    fprintf(fileID2, '%5d', bool);
-    fclose(fileID2);
+        fileID2 = fopen('booleanAccepted.txt', 'a');
+        fprintf(fileID2, '%5d', bool);
+        fclose(fileID2);
+    end
     
     rmpath(added_path);
+    isN = bool;
 end
