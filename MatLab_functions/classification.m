@@ -1,7 +1,7 @@
 %% Classification of image sent
 function classification(image)
 
- %Load the pre-trained network
+    %Load the pre-trained network
     load('resnet101_plus.mat');
 
     %Resize image for classification
@@ -10,7 +10,7 @@ function classification(image)
     I=imresize(I, inputSize(1:2));
 
     %Classify the Image
-    label = classify(net, I);
-    correspondanceWithGroups(label(1));
+    [label, scores] = classify(net, I);
+    correspondanceWithGroups(scores, label(1));
 end
    

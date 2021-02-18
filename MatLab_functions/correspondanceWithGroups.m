@@ -1,14 +1,14 @@
 %% Classification of image sent
-function correspondanceWithGroups(label)
+function correspondanceWithGroups(scores, label)
     kid = [1 4 8 15 22];
     top = [2 3 4 5 6 7 9 10 11 12 13 14 16 17 18 19 20 21];
     bottom = [23 24 25 28 29 30 31 32 33 34];
     underwear = [26 27];
     footwear = [35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50];
     
-    label = double(label)
+    label = double(label);
     %First message
-    lbl = "The label predicted is " + num2str(label) + ". ";
+    lbl = "The label predicted is " + num2str(label) + " with a probability of " + num2str(100*scores(label)) + "%";
 
     %Second message
     message = "Do you agree it is ";

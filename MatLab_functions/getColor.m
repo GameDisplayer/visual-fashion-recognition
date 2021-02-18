@@ -2,10 +2,10 @@
 function classification(image)
 
     %Groups
-    groups = ["black", "blue", "green", "orange", "red", "violet", "white", "yellow"];
+    groups = ["black", "blue", "brown", "green", "orange", "pink", "red", "pink", "purple", "white", "yellow"];
 
     %Load the pre-trained network
-    load('knn.mat');
+    load('knn_google_512.mat');
 
     im=imread(image);
     % crop

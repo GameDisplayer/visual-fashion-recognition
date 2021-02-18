@@ -7,11 +7,11 @@ close all
 Nbin=16;
 features=[];
 labels=[];
-groups = ["black", "blue", "green", "orange", "red", "violet", "white", "yellow"];
+groups = ["black", "blue", "brown", "green", "orange", "pink", "red", "pink", "purple", "white", "yellow"];
 tic
-for class=1:8
-    folder = 'C:\Users\Romain\Desktop\Visual\colorData\' + groups(class)  + '\';
-    images = [dir(folder + '*.jpg'); dir(folder + '*.png')];
+for class=1:11
+    folder = 'C:\Users\Romain\Desktop\Visual\colorData\' + groups(class)  + '+color\';
+    images = [dir(folder + '*.jpg'); dir(folder + '*.png'); dir(folder + '*.jpeg')];
     n = numel(images);
     for i=1:n
         s=images(i).name;
@@ -19,10 +19,13 @@ for class=1:8
         %figure, imshow(im)
         %im = rgb2hsv(im);
         im=im2double(im);
-        im=reshape(im, [], 3);
-        f = color_histogram(im, Nbin);
-        features=[features; f];
-        labels=[labels; class];
+        try
+            im=reshape(im, [], 3);
+            f = color_histogram(im, Nbin);
+            features=[features; f];
+            labels=[labels; class];
+        catch
+        end
         
     end
 end
@@ -71,12 +74,12 @@ Mdl = fitcknn(features,labels,'OptimizeHyperparameters', {'Distance','NumNeighbo
 
 %% save model
 
-knn = Mdl;
-save knn
+knn_google_512 = Mdl;
+save knn_google_512
 
 %% predict
 
-img='C:\Users\Romain\Desktop\Visual\trainSetWithBlackWhiteBordersCropped\387.jpg';
+img='C:\Users\Romain\Desktop\Visual\trainSetWithBlackWhiteBordersCropped\17.jpg';
 im=imread(img);
 %figure, imshow(im)
 % crop
