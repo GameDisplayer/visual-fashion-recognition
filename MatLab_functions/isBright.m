@@ -1,6 +1,10 @@
 function isB = isBright(image, insideFunc)
-    inputImage = imread(image);
-    brightness = mean2(inputImage);
+    if(insideFunc==0)
+        inputImage = imread(image);
+        brightness = mean2(inputImage);
+    else
+        brightness = mean2(image);
+    end
     
     if( brightness < 50)
         message = ", dark";

@@ -5,6 +5,8 @@ function imageBrighted = correctBrightness(image)
         gamma = 0;
     elseif (brightness > 175)
         gamma = 2;
+    else
+        gamma = 1;
     end
 
     imageBrighted = imadjust(image, [],[], gamma);    

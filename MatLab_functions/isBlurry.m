@@ -1,7 +1,11 @@
 %Blur detection with Laplacian kernel
 function isB = isBlurry(image, threshold, insideFunc)
-    inputImage = imread(image);
-    inputImage = rgb2gray(inputImage);
+    if(insideFunc==0)
+        inputImage = imread(image);
+        inputImage = rgb2gray(inputImage);
+    else
+        inputImage = rgb2gray(image);
+    end
 
 %     kernel = -1 * ones(3);
 %     kernel(2,2) = 8;  % Now kernel = [-1,-1,-1; -1,8,-1; -1,-1,-1]

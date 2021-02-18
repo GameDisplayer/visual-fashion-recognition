@@ -16,6 +16,8 @@ This subset is not provided in this repository because of its size.
 4. Send your picture in the chat.
 5. Follow the instructions given by Vivi. 
 
+- If you need help, please type "Help" or "help" in the chat.
+
 ## Process idea :
 1. Analyse the image sent (tell if it is recognizable or not and if not try to make it usable)
 2. Recognize the clothing (depending on the category of the dataset ie top, bottom, footwear ~~and accessory~~ and kids clothing)
