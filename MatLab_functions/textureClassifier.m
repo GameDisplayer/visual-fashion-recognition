@@ -1,6 +1,7 @@
 %% KTH-TIPS
-tempdir="C:\Users\Romain\Desktop\Visual\";
-location = fullfile(tempdir,'kth_tips_grey_200x200','KTH_TIPS');
+%tempdir="C:\Users\Romain\Desktop\Visual\";
+%location = fullfile(tempdir,'kth_tips_grey_200x200','KTH_TIPS');
+location = '../../FabricsTextureDataset';
 Imds = imageDatastore(location,'IncludeSubFolders',true,'FileExtensions','.png','LabelSource','foldernames');
 
 numImages = 810;
@@ -52,9 +53,13 @@ accuracy = sum(testImds.Labels == predlabels)./numel(testImds.Labels)*100
 figure
 confusionchart(testImds.Labels,predlabels)
 
+%% Save model
+
+texture_classifier = model
+save texture_classifier
 %% test model
 
-image = "C:\Users\Romain\Desktop\Visual\trainSetWithBlackWhiteBordersCropped\24.jpg";
+image = "../../trainSetWithBlackWhiteBordersCropped/24.jpg";
 %im = imread(image);
 imageCropped = crop(image);
 imageCroppedG = rgb2gray(imageCropped);
