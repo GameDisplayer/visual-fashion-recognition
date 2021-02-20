@@ -80,18 +80,10 @@ save knn_google_512
 %% predict
 
 img='C:\Users\Romain\Desktop\Visual\trainSetWithBlackWhiteBordersCropped\17.jpg';
-im=imread(img);
-%figure, imshow(im)
-% crop
-[rows, columns, numberOfColorChannels] = size(im);
-cropRows = round(30 * rows / 100);
-cropColumns = round(30 * columns / 100);
-targetSize = [cropRows cropColumns];
-win1 = centerCropWindow2d(size(im),targetSize);
-B1 = imcrop(im,win1);
-figure, imshow(B1)
+croppedImage = crop(img);
 
-im=im2double(B1);
+% color histogram
+im=im2double(croppedImage);
 im=reshape(im, [], 3);
 f = color_histogram(im, Nbin);
 
