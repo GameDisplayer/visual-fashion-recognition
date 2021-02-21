@@ -31,14 +31,10 @@ codegen/
 octave-workspace
 
 # Generated txt files
-booleanAccepted.txt
-messages.txt
-label.txt
-color.txt
+*.txt
 
 #py_cache
 __pycache__/
 
 #saved model
-/MatLab_functions/resnet101_plus.mat
-/MatLab_functions/knn.mat
+/MatLab_functions/model_saved/resnet101_plus.mat

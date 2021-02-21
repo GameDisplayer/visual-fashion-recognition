@@ -8,12 +8,13 @@ sys.path.append(bot_dir)
 
 from Updater import Updater
 
-def classifyImage(bot, message, chat_id, filename):
+def classifyClothes(bot, message, chat_id, filename):
     global Last_message_send
     global cur_dir
     global matlab_function_dir
     global matlab_cmd
-
+    global group
+    
     #Set command to start matlab script "classification.m"
     cmd_classification = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); classification(\'" + filename + "\'); quit\""
     #Launch command
@@ -22,7 +23,20 @@ def classifyImage(bot, message, chat_id, filename):
     f3 = open(cur_dir + "\\label.txt", "r")
     label = f3.read()
     bot.sendMessage(chat_id, label)
-    Last_message_send = label
+    Last_message_send = "Check clothes"
+    f3.close()
+
+    f3b = open(cur_dir + "\\labelNum.txt", "r")
+    group = int(f3b.read())
+    f3b.close()
+    
+
+def detectColor(bot, message, chat_id, filename):
+    global Last_message_send
+    global cur_dir
+    global matlab_function_dir
+    global matlab_cmd
+    global color
 
     #Set command to start matlab script "getColor.m"
     cmd_classification = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); getColor(\'" + filename + "\'); quit\""
@@ -30,9 +44,36 @@ def classifyImage(bot, message, chat_id, filename):
     subprocess.call(cmd_classification,shell=True)
 
     f4 = open(cur_dir + "\\color.txt", "r")
-    color = f4.read()
-    bot.sendMessage(chat_id, color)
-    Last_message_send = color
+    colorString = f4.read()
+    bot.sendMessage(chat_id, colorString)
+    Last_message_send = "Check color"
+    f4.close()
+
+    f4b = open(cur_dir + "\\colorNum.txt", "r")
+    color = int(f4b.read())
+    f4b.close()
+    
+
+def detectTexture(bot, message, chat_id, filename):
+    global Last_message_send
+    global cur_dir
+    global matlab_function_dir
+    global matlab_cmd
+    global texture
+    
+    #Set command to start matlab script "textureRecognition.m"
+    cmd_texture = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); textureRecognition(\'" + filename + "\', 0); quit\""
+    subprocess.call(cmd_texture,shell=True)
+
+    f5 = open(cur_dir + "\\texture.txt", "r")
+    text = f5.read()
+    bot.sendMessage(chat_id, text)
+    Last_message_send = "Check texture"
+    f5.close()
+
+    f5b = open(cur_dir + "\\textureVal.txt", "r")
+    texture = f5b.read()
+    f5b.close()
 
 def fileparts(fn):
     (dirName, fileName) = os.path.split(fn)
@@ -79,9 +120,11 @@ def imageHandler(bot, message, chat_id, local_filename):
 
     f = open(cur_dir + "\\messages.txt", "r")
     message = f.read()
+    f.close()
 
     f2 = open(cur_dir + "\\booleanAccepted.txt", "r")
     boolean = f2.read()
+    f2.close()
 
     accepted = False
     if("1" not in boolean):
@@ -94,10 +137,10 @@ def imageHandler(bot, message, chat_id, local_filename):
     if(accepted):
         bot.sendMessage(chat_id, "Your image is going to be classified.")
         Last_message_send = "Your image is going to be classified."
-        classifyImage(bot, message, chat_id, local_filename)
+        classifyClothes(bot, message, chat_id, local_filename)
 
         #A LA FIN DU TRAITEMENT D'IMAGE! SURTOUT PAS AVANT!
-        os.remove(local_filename)
+        #os.remove(local_filename)
 
     else:
         bot.sendMessage(chat_id, "Your image can not be processed. Do you want me to try to correct it ?")
@@ -105,17 +148,22 @@ def imageHandler(bot, message, chat_id, local_filename):
 
 def textHandler(bot, message, chat_id, text):
     global Last_message_send
+    global current_image_name
+    global color
+    global texture
+    
+    YES = ["yes", "Yes", "y", "Y"]
     print(text)
     if text == "help" or text == "Help":
         bot.sendMessage(chat_id, "Send me an image, and follow my instruction!\n"+
-                        "To answer yes to a question, you can say  'Yes', 'yes', 'Y', or 'y'.\nTo answer no, you can send 'No', 'no', 'N', or 'n'.")
+                        "To answer yes to a question, you can say  'Yes', 'yes', 'Y', or 'y'.\nTo answer no, you can send 'No', 'no', 'N', 'n', or anything else.")
     if Last_message_send == "":
         bot.sendMessage(chat_id, "Hi, please send me an image!")
     elif Last_message_send == "So please, try a new image!" or Last_message_send == "Please, try a new image!":
         bot.sendMessage(chat_id, "Please, try a new image!")
         Last_message_send = "Please, try a new image!"
     elif Last_message_send == "Your image can not be processed. Do you want me to try to correct it ?":
-        if text == "yes" or text == "Yes" or text == "y" or text == "Y":
+        if text in YES:
             bot.sendMessage(chat_id, "Ok, please wait until I've finish to correct your image.")
             Last_message_send = "Ok, please wait until I've finish to correct your image."
             cmd_correction = matlab_cmd + " -nodesktop -nosplash -wait -r \"addpath(\'" + matlab_function_dir + "\'); correction(\'" + current_image_name + "\'); quit\""
@@ -128,17 +176,140 @@ def textHandler(bot, message, chat_id, text):
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
     elif Last_message_send == "This is your image corrected. Do you agree with this correction ?":
-        if text == "yes" or text == "Yes" or text == "y" or text == "Y":
+        if text in YES:
             bot.sendMessage(chat_id, "The image is going to be classified.")
             Last_message_send = "The image is going to be classified."
-            classifyImage(bot, message, chat_id, "Corrected.jpg")
             os.remove(current_image_name)
+            current_image_name = "Corrected.jpg"
+            classifyClothes(bot, message, chat_id, "Corrected.jpg")
+            
             os.remove("Corrected.jpg")
         else:
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
             os.remove("Corrected.jpg")
+    elif Last_message_send == "Check clothes":
+        if text in YES:
+            detectColor(bot, message, chat_id, current_image_name)
+        else:
+            bot.sendMessage(chat_id, "I'm sorry about this error... Please, try with another image")
+            Last_message_send = "Please, try a new image!"
+            os.remove(current_image_name)
+    elif Last_message_send == "Check color":
+        if text in YES:
+            detectTexture(bot, message, chat_id, current_image_name)
+        else:
+            bot.sendMessage(chat_id, "I'm sorry about this error... Can you please tell me what is the right color?\n"+
+                            "Type 1 for black, 2 for blue, 3 for brown, 4 for green, 5 for grey, 6 for orange, 7 for pink, 8 for purple,"+
+                            "9 for red, 10 for white or 11 for yellow.")
+            Last_message_send = "Color?"
+    elif Last_message_send == "Color?":
+        if text == "1":
+            color = 1
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "2":
+            color = 2
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "3":
+            color = 3
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "4":
+            color = 4
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "5":
+            color = 5
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "6":
+            color = 6
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "7":
+            color = 7
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "8":
+            color = 8
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "9":
+            color = 9
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "10":
+            color = 10
+            detectTexture(bot, message, chat_id, current_image_name)
+        elif text == "11":
+            color = 11
+            detectTexture(bot, message, chat_id, current_image_name)
+        else:
+            bot.sendMessage(chat_id, "I'm sorry, but I cannot understand your response. Please, retry!")
+            Last_message_send = "Color?"
+    elif Last_message_send == "Check texture":
+        if text in YES:
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        else:
+            bot.sendMessage(chat_id, "I'm sorry about this error... Can you please tell me what is the right texture?\n"+
+                            "Type 1 for acrylic, 2 for corduroy, 3 for cotton, 4 for denim, 5 for leather, 6 for nylon, 7 for polyester, 8 for satin,"+
+                            "or 9 for viscose.")
+            Last_message_send = "Texture?"
+    elif Last_message_send == "Texture?":
+        if text == "1":
+            texture = "Acrylic"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "2":
+            texture = "Corduroy"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "3":
+            texture = "Cotton"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "4":
+            texture = "Denim"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "5":
+            texture = "Leather"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "6":
+            texture = "Nylon"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "7":
+            texture = "Polyester"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "8":
+            texture = "Satin"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        elif text == "9":
+            texture = "Viscose"
+            bot.sendMessage(chat_id, "Perfect! Just one last question and I'll suggest an outfit!\n"+
+                            "Do you want an outfit with the same color (type 1), the same texture (type 2) or both (type 3)?")
+            Last_message_send = "kind of outfit?"
+        else:
+            bot.sendMessage(chat_id, "I'm sorry, but I cannot understand your response. Please, retry!")
+            Last_message_send = "Texture?"
+    elif Last_message_send == "kind of outfit?":
+        if text == "1":
+            print("Coucou")
+        elif text == "2":
+            print("Coucou")
+        elif text == "3":
+            print("Coucou")
+        else:
+            bot.sendMessage(chat_id, "I'm sorry, but I cannot understand your response. Please, retry!")
+            Last_message_send = "kind of outfit?"
     else:
         bot.sendMessage(chat_id, "Please wait until your image finish to be processed.")
         Last_message_send = "Please wait until your image finish to be processed."
