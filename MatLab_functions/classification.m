@@ -4,7 +4,7 @@ function classification(image)
     added_path = [pwd,'/MatLab_functions/model_saved'];
     addpath(added_path);
     
-    added_path2 = [pwd,'/MatLab_functions/color_classification'];
+    added_path2 = [pwd,'/MatLab_functions/utility'];
     addpath(added_path2);
 
     %Load the pre-trained network
