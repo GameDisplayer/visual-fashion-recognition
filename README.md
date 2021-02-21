@@ -47,17 +47,17 @@ This subset is not provided in this repository because of its size.
   - *whiteCrop.m* : is doing the same thing as written above but for the white borders
   - *creationOfDataset.m* : is using the two cropping functions to ceate the trainable dataset
 -  **texture_classification** contains the files of the texture classifier :
-  - *helperPCAClassifier.m* this is the texture classifierfunction that takes as input the wavelet features and the model and predicts the label
-  - *helperPCAModel.m* : is the function of the model that we use for the classification of textures
-  - *helperScatImages_mean.m* : helps to take the mean of sf features on image
-  - *offlineTextureClassifier.m* : here all the images of our dataset are classified based on our saved model and the results are in **texture.csv**
-  - *textureClassifier.m* : where the texture classification model is trained on [the Fabrics dataset](https://ibug.doc.ic.ac.uk/resources/fabrics/)
+   - *helperPCAClassifier.m* this is the texture classifierfunction that takes as input the wavelet features and the model and predicts the label
+   - *helperPCAModel.m* : is the function of the model that we use for the classification of textures
+   - *helperScatImages_mean.m* : helps to take the mean of sf features on image
+   - *offlineTextureClassifier.m* : here all the images of our dataset are classified based on our saved model and the results are in **texture.csv**
+   - *textureClassifier.m* : where the texture classification model is trained on [the Fabrics dataset](https://ibug.doc.ic.ac.uk/resources/fabrics/)
 - **transfer_learning** contains :
   - *TransferLearningUsingResnet101.m* : is the transfer learning approach (finetuning on ResNet101) used to classify the clothings by type 
   - *features_extraction.m* : is another transfer learning approach (features extraction with AlexNet) not used because of the poor performances obtained
 -  **utility** is a folder containing :
-  - *correspondanceWithGroups.m* : a function that aims at making correspondance between the group labels and the "super-groups" i.e {"top", "bottom", "footwear", "kid", "underwear"}
-  - *crop.m* is the function used to crop the images (we assume that the clothing is at the center of the image)
+   - *correspondanceWithGroups.m* : a function that aims at making correspondance between the group labels and the "super-groups" i.e {"top", "bottom", "footwear", "kid", "underwear"}
+   - *crop.m* is the function used to crop the images (we assume that the clothing is at the center of the image)
 
 Below are the functions that are used directly in the chatbot (in server.py)
 - *classification.m* : based on the saved model the input clothing is classified by its type
