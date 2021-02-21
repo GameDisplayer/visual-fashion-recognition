@@ -48,7 +48,7 @@ def outfitSameColor(bot, chat_id):
         groupChoice.append(random.choice(underwear))
         groupChoice.append(random.choice(top))
 
-    dataByColor = pd.read_csv(matlab_function_dir + '\color.csv',header=0, 
+    dataByColor = pd.read_csv(matlab_function_dir + '\\color.csv',header=0, 
             names=['image', 'color'])
 
     imageOfRightColor = dataByColor.loc[dataByColor['color']==color]
@@ -113,7 +113,7 @@ def outfitSameTexture(bot, chat_id):
         groupChoice.append(random.choice(underwear))
         groupChoice.append(random.choice(top))
 
-    dataByText = pd.read_csv(matlab_function_dir + '\texture.csv',header=0, 
+    dataByText = pd.read_csv(matlab_function_dir + '\\texture.csv',header=0, 
             names=['image', 'texture'])
 
     imageOfRightText = dataByText.loc[dataByText['texture']==texture]
@@ -122,7 +122,6 @@ def outfitSameTexture(bot, chat_id):
     imageOfRightGroup = groups.loc[~groups['group'].isin(groupNot)]
 
     selectedImage = imageOfRightGroup.loc[imageOfRightGroup['name'].isin(imageOfRightText['image'])]
-    print(selectedImage)
     nameSelectedImages = []
     for i in groupChoice:
         if i in selectedImage['group'].tolist():
@@ -180,12 +179,12 @@ def outfitBoth(bot, chat_id):
         groupChoice.append(random.choice(underwear))
         groupChoice.append(random.choice(top))
 
-    dataByText = pd.read_csv(matlab_function_dir + '\texture.csv',header=0, 
+    dataByText = pd.read_csv(matlab_function_dir + '\\texture.csv',header=0, 
             names=['image', 'texture'])
 
     imageOfRightText = dataByText.loc[dataByText['texture']==texture]
 
-    dataByColor = pd.read_csv(matlab_function_dir + '\color.csv',header=0, 
+    dataByColor = pd.read_csv(matlab_function_dir + '\\color.csv',header=0, 
             names=['image', 'color'])
 
     imageOfRightColor = dataByColor.loc[dataByColor['color']==color]
@@ -377,8 +376,8 @@ def textHandler(bot, message, chat_id, text):
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
     elif Last_message_send == "This is your image corrected. Do you agree with this correction ?":
         if text in YES:
             bot.sendMessage(chat_id, "The image is going to be classified.")
@@ -386,15 +385,15 @@ def textHandler(bot, message, chat_id, text):
             os.remove(current_image_name)
             current_image_name = "Corrected.jpg"
             classifyClothes(bot, message, chat_id, "Corrected.jpg")
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
             os.remove("Corrected.jpg")
         else:
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
             os.remove("Corrected.jpg")
     elif Last_message_send == "Check clothes":
         if text in YES:
@@ -403,10 +402,10 @@ def textHandler(bot, message, chat_id, text):
             bot.sendMessage(chat_id, "I'm sorry about this error... Please, try with another image")
             Last_message_send = "Please, try a new image!"
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
-            os.remove("\\label.txt")
-            os.remove("\\labelNum.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
+            os.remove("label.txt")
+            os.remove("labelNum.txt")
     elif Last_message_send == "Check color":
         if text in YES:
             detectTexture(bot, message, chat_id, current_image_name)
@@ -515,36 +514,36 @@ def textHandler(bot, message, chat_id, text):
         if text == "1":
             outfitSameColor(bot, chat_id)
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
-            os.remove("\\label.txt")
-            os.remove("\\labelNum.txt")
-            os.remove("\\color.txt")
-            os.remove("\\colorNum.txt")
-            os.remove("\\texture.txt")
-            os.remove("\\textureVal.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
+            os.remove("label.txt")
+            os.remove("labelNum.txt")
+            os.remove("color.txt")
+            os.remove("colorNum.txt")
+            os.remove("texture.txt")
+            os.remove("textureVal.txt")
         elif text == "2":
             outfitSameTexture(bot, chat_id)
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
-            os.remove("\\label.txt")
-            os.remove("\\labelNum.txt")
-            os.remove("\\color.txt")
-            os.remove("\\colorNum.txt")
-            os.remove("\\texture.txt")
-            os.remove("\\textureVal.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
+            os.remove("label.txt")
+            os.remove("labelNum.txt")
+            os.remove("color.txt")
+            os.remove("colorNum.txt")
+            os.remove("texture.txt")
+            os.remove("textureVal.txt")
         elif text == "3":
             outfitBoth(bot, chat_id)
             os.remove(current_image_name)
-            os.remove("\\booleanAccepted.txt")
-            os.remove("\\messages.txt")
-            os.remove("\\label.txt")
-            os.remove("\\labelNum.txt")
-            os.remove("\\color.txt")
-            os.remove("\\colorNum.txt")
-            os.remove("\\texture.txt")
-            os.remove("\\textureVal.txt")
+            os.remove("booleanAccepted.txt")
+            os.remove("messages.txt")
+            os.remove("label.txt")
+            os.remove("labelNum.txt")
+            os.remove("color.txt")
+            os.remove("colorNum.txt")
+            os.remove("texture.txt")
+            os.remove("textureVal.txt")
         else:
             bot.sendMessage(chat_id, "I'm sorry, but I cannot understand your response. Please, retry!")
             Last_message_send = "kind of outfit?"
