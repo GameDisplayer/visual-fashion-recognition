@@ -16,7 +16,7 @@ This subset is not provided in this repository because of its size.
 4. Send your picture in the chat.
 5. Follow the instructions given by Vivi. 
 
-## How to use our fabulous bot ?
+## How to communicate with our (fabulous) bot ?
 
 - If you need help, please type "Help" or "help" in the chat.
 - Be cautious of the keywords specified by our bot and it will work smoothly !
