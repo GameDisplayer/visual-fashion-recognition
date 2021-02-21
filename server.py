@@ -1,12 +1,217 @@
 import os, sys, platform, subprocess
 import os.path
 from os import path
+import pandas as pd
+import random
 
 os.chdir(os.getcwd())
 bot_dir = 'python_bot-master'
 sys.path.append(bot_dir)
 
 from Updater import Updater
+
+def outfitSameColor(bot, chat_id):
+    global matlab_function_dir
+    global group
+    global color
+
+    image_dir = "..\\trainSet\\"
+    
+    kid = [1, 4, 8, 15, 22];
+    top = [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21];
+    bottom = [23, 24, 25, 28, 29, 30, 31, 32, 33, 34];
+    underwear = [26, 27];
+    footwear = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+
+    groupChoice = []
+    if group in kid:
+        groupNot = top + bottom + underwear + footwear
+        groupChoice.append(random.choice(kid))
+    elif group in top:
+        groupNot = top + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in bottom:
+        groupNot = bottom + kid
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in underwear:
+        groupNot = underwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(footwear))
+    else:
+        groupNot = footwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(top))
+
+    dataByColor = pd.read_csv(matlab_function_dir + '\color.csv',header=0, 
+            names=['image', 'color'])
+
+    imageOfRightColor = dataByColor.loc[dataByColor['color']==color]
+
+    groups = pd.read_csv('..\\train.csv')
+    imageOfRightGroup = groups.loc[~groups['group'].isin(groupNot)]
+
+    selectedImage = imageOfRightGroup.loc[imageOfRightGroup['name'].isin(imageOfRightColor['image'])]
+    nameSelectedImages = []
+    for i in groupChoice:
+        if i in selectedImage['group'].tolist():
+            tmp = selectedImage.loc[selectedImage['group']==i]
+            imChoosed = tmp.sample()
+            nameImChoosed = imChoosed.iloc[0]['name']
+            nameSelectedImages.append(str(nameImChoosed))
+
+    if len(nameSelectedImages) > 0:
+        for j in range(len(nameSelectedImages)-1):
+            bot.sendImage(chat_id, image_dir + nameSelectedImages[j], "")
+
+        bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
+        Last_message_send = ""
+    else:
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        Last_message_send = "Please, try a new image!"
+
+def outfitSameTexture(bot, chat_id):
+    global matlab_function_dir
+    global group
+    global texture
+
+    image_dir = "..\\trainSet\\"
+    
+    kid = [1, 4, 8, 15, 22];
+    top = [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21];
+    bottom = [23, 24, 25, 28, 29, 30, 31, 32, 33, 34];
+    underwear = [26, 27];
+    footwear = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+
+    groupChoice = []
+    if group in kid:
+        groupNot = top + bottom + underwear + footwear
+        groupChoice.append(random.choice(kid))
+    elif group in top:
+        groupNot = top + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in bottom:
+        groupNot = bottom + kid
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in underwear:
+        groupNot = underwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(footwear))
+    else:
+        groupNot = footwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(top))
+
+    dataByText = pd.read_csv(matlab_function_dir + '\texture.csv',header=0, 
+            names=['image', 'texture'])
+
+    imageOfRightText = dataByText.loc[dataByText['texture']==texture]
+
+    groups = pd.read_csv('..\\train.csv')
+    imageOfRightGroup = groups.loc[~groups['group'].isin(groupNot)]
+
+    selectedImage = imageOfRightGroup.loc[imageOfRightGroup['name'].isin(imageOfRightText['image'])]
+    print(selectedImage)
+    nameSelectedImages = []
+    for i in groupChoice:
+        if i in selectedImage['group'].tolist():
+            tmp = selectedImage.loc[selectedImage['group']==i]
+            imChoosed = tmp.sample()
+            nameImChoosed = imChoosed.iloc[0]['name']
+            nameSelectedImages.append(str(nameImChoosed))
+
+    if len(nameSelectedImages) > 0:
+        for j in range(len(nameSelectedImages)-1):
+            bot.sendImage(chat_id, image_dir + nameSelectedImages[j], "")
+
+        bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
+        Last_message_send = ""
+    else:
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        Last_message_send = "Please, try a new image!"
+
+def outfitBoth(bot, chat_id):
+    global matlab_function_dir
+    global group
+    global color
+    global texture
+
+    image_dir = "..\\trainSet\\"
+    
+    kid = [1, 4, 8, 15, 22];
+    top = [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21];
+    bottom = [23, 24, 25, 28, 29, 30, 31, 32, 33, 34];
+    underwear = [26, 27];
+    footwear = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+
+    groupChoice = []
+    if group in kid:
+        groupNot = top + bottom + underwear + footwear
+        groupChoice.append(random.choice(kid))
+    elif group in top:
+        groupNot = top + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in bottom:
+        groupNot = bottom + kid
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(footwear))
+    elif group in underwear:
+        groupNot = underwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(top))
+        groupChoice.append(random.choice(footwear))
+    else:
+        groupNot = footwear + kid
+        groupChoice.append(random.choice(bottom))
+        groupChoice.append(random.choice(underwear))
+        groupChoice.append(random.choice(top))
+
+    dataByText = pd.read_csv(matlab_function_dir + '\texture.csv',header=0, 
+            names=['image', 'texture'])
+
+    imageOfRightText = dataByText.loc[dataByText['texture']==texture]
+
+    dataByColor = pd.read_csv(matlab_function_dir + '\color.csv',header=0, 
+            names=['image', 'color'])
+
+    imageOfRightColor = dataByColor.loc[dataByColor['color']==color]
+
+
+    groups = pd.read_csv('..\\train.csv')
+    imageOfRightGroup = groups.loc[~groups['group'].isin(groupNot)]
+
+    selectedImage = imageOfRightGroup.loc[imageOfRightGroup['name'].isin(imageOfRightText['image']) & imageOfRightGroup['name'].isin(imageOfRightColor['image'])]
+    nameSelectedImages = []
+    for i in groupChoice:
+        if i in selectedImage['group'].tolist():
+            tmp = selectedImage.loc[selectedImage['group']==i]
+            imChoosed = tmp.sample()
+            nameImChoosed = imChoosed.iloc[0]['name']
+            nameSelectedImages.append(str(nameImChoosed))
+
+    if len(nameSelectedImages) > 0:
+        for j in range(len(nameSelectedImages)-1):
+            bot.sendImage(chat_id, image_dir + nameSelectedImages[j], "")
+
+        bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
+        Last_message_send = ""
+    else:
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        Last_message_send = "Please, try a new image!"    
 
 def classifyClothes(bot, message, chat_id, filename):
     global Last_message_send
@@ -139,9 +344,6 @@ def imageHandler(bot, message, chat_id, local_filename):
         Last_message_send = "Your image is going to be classified."
         classifyClothes(bot, message, chat_id, local_filename)
 
-        #A LA FIN DU TRAITEMENT D'IMAGE! SURTOUT PAS AVANT!
-        #os.remove(local_filename)
-
     else:
         bot.sendMessage(chat_id, "Your image can not be processed. Do you want me to try to correct it ?")
         Last_message_send = "Your image can not be processed. Do you want me to try to correct it ?"
@@ -175,6 +377,8 @@ def textHandler(bot, message, chat_id, text):
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
     elif Last_message_send == "This is your image corrected. Do you agree with this correction ?":
         if text in YES:
             bot.sendMessage(chat_id, "The image is going to be classified.")
@@ -182,12 +386,15 @@ def textHandler(bot, message, chat_id, text):
             os.remove(current_image_name)
             current_image_name = "Corrected.jpg"
             classifyClothes(bot, message, chat_id, "Corrected.jpg")
-            
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
             os.remove("Corrected.jpg")
         else:
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
             os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
             os.remove("Corrected.jpg")
     elif Last_message_send == "Check clothes":
         if text in YES:
@@ -196,6 +403,10 @@ def textHandler(bot, message, chat_id, text):
             bot.sendMessage(chat_id, "I'm sorry about this error... Please, try with another image")
             Last_message_send = "Please, try a new image!"
             os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
+            os.remove("\\label.txt")
+            os.remove("\\labelNum.txt")
     elif Last_message_send == "Check color":
         if text in YES:
             detectTexture(bot, message, chat_id, current_image_name)
@@ -302,11 +513,38 @@ def textHandler(bot, message, chat_id, text):
             Last_message_send = "Texture?"
     elif Last_message_send == "kind of outfit?":
         if text == "1":
-            print("Coucou")
+            outfitSameColor(bot, chat_id)
+            os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
+            os.remove("\\label.txt")
+            os.remove("\\labelNum.txt")
+            os.remove("\\color.txt")
+            os.remove("\\colorNum.txt")
+            os.remove("\\texture.txt")
+            os.remove("\\textureVal.txt")
         elif text == "2":
-            print("Coucou")
+            outfitSameTexture(bot, chat_id)
+            os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
+            os.remove("\\label.txt")
+            os.remove("\\labelNum.txt")
+            os.remove("\\color.txt")
+            os.remove("\\colorNum.txt")
+            os.remove("\\texture.txt")
+            os.remove("\\textureVal.txt")
         elif text == "3":
-            print("Coucou")
+            outfitBoth(bot, chat_id)
+            os.remove(current_image_name)
+            os.remove("\\booleanAccepted.txt")
+            os.remove("\\messages.txt")
+            os.remove("\\label.txt")
+            os.remove("\\labelNum.txt")
+            os.remove("\\color.txt")
+            os.remove("\\colorNum.txt")
+            os.remove("\\texture.txt")
+            os.remove("\\textureVal.txt")
         else:
             bot.sendMessage(chat_id, "I'm sorry, but I cannot understand your response. Please, retry!")
             Last_message_send = "kind of outfit?"
