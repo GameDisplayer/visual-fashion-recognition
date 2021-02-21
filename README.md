@@ -66,5 +66,5 @@ Below are the functions that are used directly in the chatbot (in server.py)
 - *getColor.m* : the function that predicts the color of the clothing
 - *isBlurry.m* : the function that detects if the input image is blurry or not
 - *isBright.m* : detects if the image is overexposed or too dark
-- *isNoisy.m* f: unction that aims at detecting if an image is too noisy or not
+- *isNoisy.m* : function that aims at detecting if an image is too noisy or not
 - textureRecognition.m* : where the classification of the clothing is made thanks to the saved model offline
