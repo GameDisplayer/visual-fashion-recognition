@@ -18,6 +18,7 @@ labels = labels(:);
 function labelIdx = determineClass(features,model)
 % Determine number of classes
 Nclasses = numel(model.Labels);
+% Nclasses = numel(model.label);
 % Initialize error matrix
 errMatrix = Inf(Nclasses,size(features,2));
 for nc = 1:Nclasses

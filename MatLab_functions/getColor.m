@@ -7,15 +7,16 @@ function classification(image)
     %Load the pre-trained network
     load('knn_google_512.mat');
 
-    im=imread(image);
-    % crop
-    [rows, columns, numberOfColorChannels] = size(im);
-    cropRows = round(30 * rows / 100);
-    cropColumns = round(30 * columns / 100);
-    targetSize = [cropRows cropColumns];
-    win1 = centerCropWindow2d(size(im),targetSize);
-    B1 = imcrop(im,win1);
-    figure, imshow(B1)
+    B1 = crop(image);
+%     im=imread(image);
+%     % crop
+%     [rows, columns, numberOfColorChannels] = size(im);
+%     cropRows = round(30 * rows / 100);
+%     cropColumns = round(30 * columns / 100);
+%     targetSize = [cropRows cropColumns];
+%     win1 = centerCropWindow2d(size(im),targetSize);
+%     B1 = imcrop(im,win1);
+%     figure, imshow(B1)
 
     %reshape and get color histogram
     im=im2double(B1);
