@@ -72,7 +72,7 @@ def outfitSameColor(bot, chat_id):
         bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
         Last_message_send = ""
     else:
-        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with a new image !")
         Last_message_send = "Please, try a new image!"
 
 def outfitSameTexture(bot, chat_id):
@@ -137,7 +137,7 @@ def outfitSameTexture(bot, chat_id):
         bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
         Last_message_send = ""
     else:
-        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with a new image !")
         Last_message_send = "Please, try a new image!"
 
 def outfitBoth(bot, chat_id):
@@ -209,7 +209,7 @@ def outfitBoth(bot, chat_id):
         bot.sendImage(chat_id, image_dir + nameSelectedImages[-1], "I hope you like this outfit! See you soon!")
         Last_message_send = ""
     else:
-        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with new cloth")
+        bot.sendMessage(chat_id, "I'm sorry, but I don't find a good outfit. Please try with a new image !")
         Last_message_send = "Please, try a new image!"    
 
 def classifyClothes(bot, message, chat_id, filename):
@@ -356,7 +356,7 @@ def textHandler(bot, message, chat_id, text):
     YES = ["yes", "Yes", "y", "Y"]
     print(text)
     if text == "help" or text == "Help":
-        bot.sendMessage(chat_id, "Send me an image, and follow my instruction!\n"+
+        bot.sendMessage(chat_id, "Send me an image, and follow my instructions!\n"+
                         "To answer yes to a question, you can say  'Yes', 'yes', 'Y', or 'y'.\nTo answer no, you can send 'No', 'no', 'N', 'n', or anything else.")
     if Last_message_send == "":
         bot.sendMessage(chat_id, "Hi, please send me an image!")
