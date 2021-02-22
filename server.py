@@ -372,6 +372,12 @@ def textHandler(bot, message, chat_id, text):
             if path.exists("Corrected.jpg") :
                bot.sendImage(chat_id, "Corrected.jpg", "This is your image corrected. Do you agree with this correction ?")
                Last_message_send = "This is your image corrected. Do you agree with this correction ?"
+            else:
+                bot.sendMessage(chat_id, "I'm really sorry, I cannot correct this image. Please, try a new one!")
+                Last_message_send = "So please, try a new image!"
+                os.remove(current_image_name)
+                os.remove("booleanAccepted.txt")
+                os.remove("messages.txt")
         else:
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
