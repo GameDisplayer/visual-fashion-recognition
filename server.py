@@ -391,9 +391,6 @@ def textHandler(bot, message, chat_id, text):
             os.remove(current_image_name)
             current_image_name = "Corrected.jpg"
             classifyClothes(bot, message, chat_id, "Corrected.jpg")
-            os.remove("booleanAccepted.txt")
-            os.remove("messages.txt")
-            os.remove("Corrected.jpg")
         else:
             bot.sendMessage(chat_id, "So please, try a new image!")
             Last_message_send = "So please, try a new image!"
